@@ -16,16 +16,14 @@ jobs:
 
     # Step 2: Deploy the files to the cPanel FTP server
     - name: Deploy to cPanel via FTP
-      uses: appleboy/ftp-deploy-action@v0.0.0  # Correct action for FTP deployment
+      uses: SamKirkland/FTP-Deploy-Action@v4  # Use the correct version of the FTP deployment action
       with:
-        host: ${{ secrets.FTP_SERVER }}         # FTP server address (e.g., ftp.yoursite.com)
-        username: ${{ secrets.FTP_USERNAME }}   # FTP username
-        password: ${{ secrets.FTP_PASSWORD }}   # FTP password
-        port: ${{ secrets.FTP_PORT }}           # FTP port (usually 21)
-        source: "./"                            # The directory to upload from (usually root of repo)
-        target: "/home/eduvess.com/test/"       # Target directory on the FTP server (cPanel directory)
-        insecure: true                          # Optional: Use insecure flag if needed
-        timeout: 300                            # Optional: Adjust timeout if needed
-        passive: true                           # Enable passive mode for FTP (useful in some cases)
-        debug: true                             # Enable debugging for troubleshooting
-
+        server: ${{ secrets.FTP_SERVER }}         # FTP server address (e.g., ftp.yoursite.com)
+        username: ${{ secrets.FTP_USERNAME }}     # FTP username
+        password: ${{ secrets.FTP_PASSWORD }}     # FTP password
+        port: ${{ secrets.FTP_PORT }}             # FTP port (usually 21)
+        server-dir: "/home/eduvess.com/test/"     # Target directory on the FTP server
+        protocol: "ftp"                           # Protocol to use (FTP)
+        timeout: 300                              # Optional: Set timeout if needed
+        local-dir: "./"                           # Local directory to upload (usually root of the repo)
+        dry-run: false                            # Set to true if you want to test without uploading files
