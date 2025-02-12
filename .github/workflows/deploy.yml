@@ -3,23 +3,29 @@ name: Deploy to cPanel via FTP (Windows)
 on:
   push:
     branches:
-      - main  # Change this to your main branch if needed
+      - main  # Trigger this workflow on push to the "main" branch
 
 jobs:
   deploy:
     runs-on: windows-latest  # Runs on a Windows machine
 
     steps:
+    # Step 1: Checkout the repository to get the latest code
     - name: Checkout Repository
-      uses: actions/checkout@v3  # Checkout your repository
+      uses: actions/checkout@v3  # Use actions/checkout to check out your code
 
+    # Step 2: Deploy the files to the cPanel FTP server
     - name: Deploy to cPanel via FTP
-      uses: actions/checkout@v2
+      uses: appleboy/ftp-deploy-action@v0.0.0  # Correct action for FTP deployment
       with:
-        server: ${{ secrets.FTP_SERVER }}        # Your FTP server address
-        username: ${{ secrets.FTP_USERNAME }}    # Your FTP username
-        password: ${{ secrets.FTP_PASSWORD }}    # Your FTP password
-        server-dir: "/home/eduvess.com/test/"    # Your cPanel directory
-        protocol: "ftp"                          # Use FTP protocol
-        port: ${{ secrets.FTP_PORT }}            # FTP port
-        timeout: 300                             # Optional: Set timeout if needed
+        host: ${{ secrets.FTP_SERVER }}         # FTP server address (e.g., ftp.yoursite.com)
+        username: ${{ secrets.FTP_USERNAME }}   # FTP username
+        password: ${{ secrets.FTP_PASSWORD }}   # FTP password
+        port: ${{ secrets.FTP_PORT }}           # FTP port (usually 21)
+        source: "./"                            # The directory to upload from (usually root of repo)
+        target: "/home/eduvess.com/test/"       # Target directory on the FTP server (cPanel directory)
+        insecure: true                          # Optional: Use insecure flag if needed
+        timeout: 300                            # Optional: Adjust timeout if needed
+        passive: true                           # Enable passive mode for FTP (useful in some cases)
+        debug: true                             # Enable debugging for troubleshooting
+
