@@ -3,7 +3,7 @@ name: Deploy to cPanel via FTP (Windows)
 on:
   push:
     branches:
-      - main  # Runs on push to the master branch
+      - main  # Change this to your main branch if needed
 
 jobs:
   deploy:
@@ -11,15 +11,15 @@ jobs:
 
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v3  # Checkout your repository
 
     - name: Deploy to cPanel via FTP
-      uses: SamKirkland/FTP-Deploy-Action@5
+      uses: SamKirkland/FTP-Deploy-Action@v1  # Use the latest available version v1
       with:
-        server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
-        server-dir: "/home/eduvess.com/test/"  # Change to your cPanel directory if needed
-        protocol: "ftp"
-        port: ${{ secrets.FTP_PORT }}
-        timeout: 300  # Increase timeout if needed
+        server: ${{ secrets.FTP_SERVER }}        # Your FTP server address
+        username: ${{ secrets.FTP_USERNAME }}    # Your FTP username
+        password: ${{ secrets.FTP_PASSWORD }}    # Your FTP password
+        server-dir: "/home/eduvess.com/test/"    # Your cPanel directory
+        protocol: "ftp"                          # Use FTP protocol
+        port: ${{ secrets.FTP_PORT }}            # FTP port
+        timeout: 300                             # Optional: Set timeout if needed
